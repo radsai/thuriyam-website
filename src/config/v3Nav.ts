@@ -1,4 +1,4 @@
-import type { NavItem } from '@/components/Layout/MainNavigation';
+import type { NavItem } from '@/types/nav';
 
 export const v3NavItems: NavItem[] = [
   {

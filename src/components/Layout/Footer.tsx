@@ -12,6 +12,8 @@ const Container = ({ children, className = '' }: { children: React.ReactNode, cl
 const Footer: React.FC = () => {
   const location = useLocation();
   const isPrelaunchPage = location.pathname.startsWith('/prelaunch');
+  const isV3Page = location.pathname.startsWith('/v3') || location.pathname.startsWith('/platform/studio/v3');
+  const isResourcesBlog = location.pathname.startsWith('/resources/blog');
 
   return (
     <footer className="border-t border-slate-200 bg-gradient-to-b from-slate-50 to-slate-100 py-12">
@@ -84,7 +86,7 @@ const Footer: React.FC = () => {
         ) : (
           // Full footer for main website
           <>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div className={`grid grid-cols-1 gap-8 mb-8 ${(isV3Page || isResourcesBlog) ? 'md:grid-cols-3' : 'md:grid-cols-4'}`}>
               {/* Logo and Tagline */}
               <div className="flex flex-col">
                 <div className="mb-4">
@@ -143,7 +145,7 @@ const Footer: React.FC = () => {
                 </div>
               </div>
 
-              {/* Product */}
+              {/* Product (v3: Studio and IQA only per vision) */}
               <div>
                 <h3 className="font-semibold text-sm mb-4 text-foreground">Product</h3>
                 <ul className="space-y-2">
@@ -152,21 +154,25 @@ const Footer: React.FC = () => {
                       Studio
                     </Link>
                   </li>
-                  <li>
-                    <Link to="/platform/security" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
-                      Security
-                    </Link>
-                  </li>
+                  {!isV3Page && (
+                    <li>
+                      <Link to="/platform/security" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
+                        Security
+                      </Link>
+                    </li>
+                  )}
                   <li>
                     <Link to="/platform/iqa" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
                       IQA
                     </Link>
                   </li>
-                  <li>
-                    <Link to="/platform/guardrails" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
-                      Guardrails
-                    </Link>
-                  </li>
+                  {!isV3Page && (
+                    <li>
+                      <Link to="/platform/guardrails" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
+                        Guardrails
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </div>
 
@@ -192,27 +198,29 @@ const Footer: React.FC = () => {
                 </ul>
               </div>
 
-              {/* Developers Bay */}
-              <div>
-                <h3 className="font-semibold text-sm mb-4 text-foreground">Developers Bay</h3>
-                <ul className="space-y-2">
-                  <li>
-                    <Link to="/developers" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
-                      Documentation
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/developers/v2" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
-                      API Reference
-                    </Link>
-                  </li>
-                  <li>
-                    <a href="https://github.com/thuriyam" target="_blank" rel="noopener noreferrer" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
-                      GitHub
-                    </a>
-                  </li>
-                </ul>
-              </div>
+              {/* Developers Bay (hidden on v3 per vision, hidden on resources/blog) */}
+              {!isV3Page && !isResourcesBlog && (
+                <div>
+                  <h3 className="font-semibold text-sm mb-4 text-foreground">Developers Bay</h3>
+                  <ul className="space-y-2">
+                    <li>
+                      <Link to="/developers" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
+                        Documentation
+                      </Link>
+                    </li>
+                    <li>
+                      <Link to="/developers/v2" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
+                        API Reference
+                      </Link>
+                    </li>
+                    <li>
+                      <a href="https://github.com/thuriyam" target="_blank" rel="noopener noreferrer" className="text-sm text-slate-600 hover:text-slate-900 transition-colors">
+                        GitHub
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
             <div className="pt-8 border-t border-slate-200 text-center text-sm text-slate-600">
               © 2026 Thuriyam. All rights reserved.

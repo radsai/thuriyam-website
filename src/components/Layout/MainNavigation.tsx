@@ -3,6 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
+import type { NavItem } from '@/types/nav';
+
+export type { NavItem };
 
 const MobileDropdown: React.FC<{
   label: string;
@@ -51,12 +54,6 @@ const MobileDropdown: React.FC<{
   );
 };
 
-export interface NavItem {
-  label: string;
-  path?: string;
-  children?: NavItem[];
-}
-
 const defaultNavItems: NavItem[] = [
   {
     label: 'Platform',
@@ -92,7 +89,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
   const [closeTimeout, setCloseTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
   const isPrelaunchPage = location.pathname.startsWith('/prelaunch');
-  const hideDevelopers = location.pathname === '/solutions/horizontal' || location.pathname === '/platform/iqa';
+  const hideDevelopers = location.pathname === '/solutions/horizontal' || location.pathname === '/platform/iqa' || location.pathname.startsWith('/resources/blog');
   const effectiveNavItems = hideDevelopers ? navItems.filter((item) => item.label !== 'Developers') : navItems;
 
   const isActive = (path?: string) => {

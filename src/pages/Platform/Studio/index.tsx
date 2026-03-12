@@ -2,17 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
-  Target, MessageSquare, Zap, CheckCircle, UserCheck, Eye, AlertCircle, 
+  Target, CheckCircle, UserCheck, Eye, AlertCircle, 
   TestTube, ShieldCheck, BarChart3, Search, Code, 
-  PlayCircle, Users, Sparkles, Send
+  PlayCircle
 } from 'lucide-react';
 import MainNavigation from '@/components/Layout/MainNavigation';
 import Footer from '@/components/Layout/Footer';
-import { DynamicUIDemo } from '@/components/ui/DynamicUIDemo';
-import { DashboardAnimation } from '@/components/animations/DashboardAnimation';
+import SupportAgentDemo from '@/components/ui/SupportAgentDemo';
 import { ProductionReadyWizard } from '@/components/animations/ProductionReadyWizard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 const Section = ({ children, className = '', id = '' }: { children: React.ReactNode, className?: string, id?: string }) => (
   <section id={id} className={`py-16 md:py-24 ${className}`}>
     {children}
@@ -61,62 +58,6 @@ const Button = ({
 };
 
 const StudioPage: React.FC = () => {
-  const [highlightInput, setHighlightInput] = React.useState(false);
-  const [showDashboardAnimation, setShowDashboardAnimation] = React.useState(false);
-  const [showDemo, setShowDemo] = React.useState(false);
-  const textRef = React.useRef<HTMLParagraphElement>(null);
-  const instantUpdatesRef = React.useRef<HTMLParagraphElement>(null);
-
-  React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setHighlightInput(true);
-            // Remove highlight after animation completes
-            setTimeout(() => setHighlightInput(false), 3000);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    if (textRef.current) {
-      observer.observe(textRef.current);
-    }
-
-    return () => {
-      if (textRef.current) {
-        observer.unobserve(textRef.current);
-      }
-    };
-  }, []);
-
-  React.useEffect(() => {
-    const instantUpdatesObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShowDashboardAnimation(true);
-          } else {
-            setShowDashboardAnimation(false);
-          }
-        });
-      },
-      { threshold: 0.5 }
-    );
-
-    if (instantUpdatesRef.current) {
-      instantUpdatesObserver.observe(instantUpdatesRef.current);
-    }
-
-    return () => {
-      if (instantUpdatesRef.current) {
-        instantUpdatesObserver.unobserve(instantUpdatesRef.current);
-      }
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
       <MainNavigation />
@@ -140,146 +81,14 @@ const StudioPage: React.FC = () => {
                 </p>
               </motion.div>
             </div>
-            {/* Enclosed Agent Builder Section */}
-            <div className="bg-white rounded-2xl border-2 border-gray-200 shadow-xl p-6 lg:p-8">
-              <div className="grid lg:grid-cols-2 gap-6 lg:gap-8 items-start">
-                {/* Left: Talk to your agent card */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="lg:sticky lg:top-8"
-                >
-                  <Card className="w-full shadow-lg">
-                    <CardHeader className="bg-gradient-to-r from-indigo-50 to-purple-50 border-b">
-                      <CardTitle className="flex items-center gap-2 text-2xl">
-                        <MessageSquare className="h-6 w-6 text-indigo-600" />
-                        Talk to your agent!
-                      </CardTitle>
-                      <p className="text-sm text-gray-600 mt-2">
-                        Build in plain English. Describe what you need in natural language—no coding required.
-                      </p>
-                    </CardHeader>
-                    <CardContent className="space-y-4 p-6">
-                      <div className="space-y-3">
-                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                          <div className="bg-indigo-100 rounded-lg p-1.5 mt-0.5 flex-shrink-0">
-                            <Users className="w-4 h-4 text-indigo-600" />
-                          </div>
-                          <div>
-                            <h4 className="font-semibold mb-1 text-sm text-gray-900">No Technical Skills Required</h4>
-                            <p 
-                              ref={textRef}
-                              className="text-sm text-blue-700 font-medium bg-blue-50 px-2 py-1 rounded border-2 border-blue-300 leading-relaxed"
-                            >
-                              Describe what you want in natural language. The system updates the agent configuration automatically.
-                            </p>
-                          </div>
-                        </div>
-                        <div className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                          <div className="bg-indigo-100 rounded-lg p-1.5 mt-0.5 flex-shrink-0">
-                            <Zap className="w-4 h-4 text-indigo-600" />
-                          </div>
-                          <div>
-                            <h4 className="font-semibold mb-1 text-sm text-gray-900">Instant Updates</h4>
-                            <p 
-                              ref={instantUpdatesRef}
-                              className={`text-sm leading-relaxed transition-all duration-500 ${
-                                showDashboardAnimation 
-                                  ? "text-green-700 font-medium bg-green-50 px-2 py-1 rounded border-2 border-green-300" 
-                                  : "text-gray-600"
-                              }`}
-                            >
-                              Changes take effect immediately. No code deployment, no waiting for developers.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-                
-                {/* Right: Demo Preview or Actual Demo */}
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                >
-                  {!showDemo ? (
-                    // Preview Image and Animation in reduced size
-                    <div className="space-y-4">
-                      <Card className="w-full shadow-lg scale-90 origin-top">
-                        <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50 border-b">
-                          <CardTitle className="flex items-center gap-2 text-xl">
-                            <Sparkles className="h-5 w-5 text-purple-600" />
-                            Agent Builder Demo
-                          </CardTitle>
-                          <p className="text-xs text-gray-600 mt-2">
-                            Hello! I'm the Studio agent builder. I can help you create AI agents for your business. Try asking me to build a customer support agent, create a lead qualification agent, or build any other agent you need!
-                          </p>
-                        </CardHeader>
-                        <CardContent className="p-4">
-                          <div className="bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 p-6 text-center">
-                            <div className="space-y-3">
-                              <div className="flex flex-wrap gap-1.5 justify-center">
-                                {['Build a customer support agent', 'Create a lead qualification agent'].map((cmd, i) => (
-                                  <div key={i} className="px-2 py-1 bg-white border border-gray-200 rounded text-xs text-gray-600">
-                                    {cmd}
-                                  </div>
-                                ))}
-                              </div>
-                              <div className="bg-white rounded-lg border p-3 min-h-[150px] flex items-center justify-center">
-                                <div className="text-center text-gray-400">
-                                  <MessageSquare className="w-8 h-8 mx-auto mb-1 opacity-50" />
-                                  <p className="text-xs">Agent Builder Demo Preview</p>
-                                </div>
-                              </div>
-                              <div className="flex gap-2">
-                                <div className="flex-1 bg-gray-100 border border-gray-200 rounded px-2 py-1.5 text-xs text-gray-400">
-                                  Describe the agent you want to build...
-                                </div>
-                                <div className="px-3 py-1.5 bg-gray-200 rounded">
-                                  <Send className="w-3 h-3 text-gray-400" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                      <div className="scale-90 origin-top">
-                        <DashboardAnimation isVisible={showDashboardAnimation} />
-                      </div>
-                    </div>
-                  ) : (
-                    // Full Interactive Demo (without badge and without animation below)
-                    <DynamicUIDemo 
-                      highlightInput={highlightInput} 
-                      showBadge={false} 
-                      autoFocus={true}
-                    />
-                  )}
-                </motion.div>
-              </div>
-            </div>
-            
-            {/* Try Now CTA Button */}
-            {!showDemo && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-center mt-6"
-              >
-                <Button
-                  onClick={() => {
-                    setShowDemo(true);
-                  }}
-                  className="px-8 py-3 text-lg"
-                >
-                  Try now!
-                </Button>
-              </motion.div>
-            )}
+            {/* Support Agent Demo */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <SupportAgentDemo />
+            </motion.div>
           </Container>
         </Section>
 
@@ -293,10 +102,10 @@ const StudioPage: React.FC = () => {
                 viewport={{ once: true }}
               >
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  Simple to Build, Production-Ready by Default
+                  Outcome-First: Goals, Not Scripts
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
-                  Building an agent is as simple as describing what you need. What starts as a simple idea becomes a production-ready agent with all the enterprise features you need—automatically. No additional configuration, no complex setup.
+                  Define what success looks like—resolve 80% without escalation, first response within 2 minutes. The platform aligns agents to these outcomes. No rigid flowcharts, no step-by-step scripts.
                 </p>
               </motion.div>
             </div>
@@ -765,10 +574,10 @@ const StudioPage: React.FC = () => {
               className="text-center max-w-3xl mx-auto"
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Ready to Build Your First Agent?
+                See How Proactive Agents Can Transform Your Operations
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
-                Start building in minutes. No credit card required.
+                Define the outcome. Agents act. Less manual work. Fewer escalations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button variant="primary" to="/signup">Start Building</Button>
