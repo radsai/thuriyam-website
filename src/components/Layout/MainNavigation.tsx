@@ -51,13 +51,13 @@ const MobileDropdown: React.FC<{
   );
 };
 
-interface NavItem {
+export interface NavItem {
   label: string;
   path?: string;
   children?: NavItem[];
 }
 
-const navItems: NavItem[] = [
+const defaultNavItems: NavItem[] = [
   {
     label: 'Platform',
     children: [
@@ -80,13 +80,20 @@ const navItems: NavItem[] = [
   },
 ];
 
-const MainNavigation: React.FC = () => {
+interface MainNavigationProps {
+  navItems?: NavItem[];
+  logoLink?: string;
+}
+
+const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavItems, logoLink = '/' }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [openNestedDropdown, setOpenNestedDropdown] = useState<string | null>(null);
   const [closeTimeout, setCloseTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
   const isPrelaunchPage = location.pathname.startsWith('/prelaunch');
+  const hideDevelopers = location.pathname === '/solutions/horizontal' || location.pathname === '/platform/iqa';
+  const effectiveNavItems = hideDevelopers ? navItems.filter((item) => item.label !== 'Developers') : navItems;
 
   const isActive = (path?: string) => {
     if (!path) return false;
@@ -99,14 +106,14 @@ const MainNavigation: React.FC = () => {
     <header className="sticky top-0 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" style={{ zIndex: 10000 }}>
       <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between relative" style={{ zIndex: 10000 }}>
         {/* Logo */}
-        <Link to="/" className="flex items-center relative" style={{ zIndex: 10001 }}>
+        <Link to={logoLink} className="flex items-center relative" style={{ zIndex: 10001 }}>
           <Logo className="text-foreground" size={40} showText={true} />
         </Link>
 
         {/* Desktop Navigation - Hidden on prelaunch page */}
         {!isPrelaunchPage && (
           <nav className="hidden lg:flex items-center gap-1 relative" style={{ zIndex: 10001 }}>
-            {navItems.map((item) => {
+            {effectiveNavItems.map((item) => {
               if (item.children) {
                 return (
                   <div
@@ -240,9 +247,20 @@ const MainNavigation: React.FC = () => {
             <nav className="container mx-auto px-4 py-4 space-y-2">
               {!isPrelaunchPage && (
                 <>
-                  {navItems.map((item) => (
-                    <MobileDropdown key={item.label} label={item.label} children={item.children || []} onClose={() => setIsMobileMenuOpen(false)} />
-                  ))}
+                  {effectiveNavItems.map((item) =>
+                    item.children?.length ? (
+                      <MobileDropdown key={item.label} label={item.label} children={item.children} onClose={() => setIsMobileMenuOpen(false)} />
+                    ) : (
+                      <Link
+                        key={item.label}
+                        to={item.path || '#'}
+                        className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    )
+                  )}
                   <div className="pt-4 space-y-2">
                     <Link to="/signin" className="block">
                       <button className="w-full inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 h-9 px-4 text-sm border border-border bg-background hover:bg-accent hover:text-accent-foreground">
