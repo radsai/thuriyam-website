@@ -5,7 +5,7 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.GITHUB_PAGES ? '/website/' : '/', // GitHub Pages: use '/website/' if repo name is 'website', otherwise use '/'
+  base: process.env.GITHUB_PAGES ? '/thuriyam-website/' : '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
