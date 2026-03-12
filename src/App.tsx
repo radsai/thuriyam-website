@@ -2,7 +2,9 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Marketing Website Pages
 import HomePage from "./pages/Home";
+import HomeV3Page from "./pages/Home/v3";
 import StudioPage from "./pages/Platform/Studio";
+import StudioV3Page from "./pages/Platform/Studio/v3";
 import StudioDashboard from "./pages/Platform/Studio/Dashboard";
 import SecurityPage from "./pages/Platform/Security";
 import IQAPage from "./pages/Platform/IQA";
@@ -27,13 +29,17 @@ import PrelaunchV8Page from "./pages/Prelaunch/v8";
 import BlogPage from "./pages/Resources/Blog";
 import BlogPostPage from "./pages/Resources/Blog/EndOfManualCompany";
 
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
+
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={basename}>
       <Routes>
         {/* Marketing Website Routes (Public) */}
         <Route path="/" element={<HomePage />} />
+        <Route path="/v3" element={<HomeV3Page />} />
         <Route path="/platform/studio" element={<StudioPage />} />
+        <Route path="/platform/studio/v3" element={<StudioV3Page />} />
         <Route path="/platform/studio/dashboard" element={<StudioDashboard />} />
         <Route path="/platform/security" element={<SecurityPage />} />
         <Route path="/platform/ai-gateway" element={<SecurityPage />} />
