@@ -1,9 +1,12 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { getLatestHomeVersionPath } from "./config/versionRoutes";
 // Marketing Website Pages
-import HomePage from "./pages/Home";
 import HomeV3Page from "./pages/Home/v3";
 import HomeV4Page from "./pages/Home/v4";
+import HomeV9Page from "./pages/Home/v9";
+import HomeV10Page from "./pages/Home/v10";
+import HomeV11Page from "./pages/Home/v11";
 import StudioPage from "./pages/Platform/Studio";
 import StudioV1Page from "./pages/Platform/Studio/v1";
 import StudioV3Page from "./pages/Platform/Studio/v3";
@@ -34,14 +37,19 @@ import BlogPostPage from "./pages/Resources/Blog/EndOfManualCompany";
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
 
+const latestHome = getLatestHomeVersionPath();
+
 const App: React.FC = () => {
   return (
     <BrowserRouter basename={basename}>
       <Routes>
-        {/* Marketing Website Routes (Public) */}
-        <Route path="/" element={<HomePage />} />
+        {/* Marketing Website Routes (Public) — `/` always forwards to newest Home (see versionRoutes) */}
+        <Route path="/" element={<Navigate to={latestHome} replace />} />
         <Route path="/v3" element={<HomeV3Page />} />
         <Route path="/v4" element={<HomeV4Page />} />
+        <Route path="/v9" element={<HomeV9Page />} />
+        <Route path="/v10" element={<HomeV10Page />} />
+        <Route path="/v11" element={<HomeV11Page />} />
         <Route path="/platform/overview" element={<PlatformOverviewPage />} />
         <Route path="/platform/studio" element={<StudioPage />} />
         <Route path="/platform/studio/v1" element={<StudioV1Page />} />
@@ -73,8 +81,8 @@ const App: React.FC = () => {
         <Route path="/signup" element={<PrelaunchPage />} />
         <Route path="/signin" element={<PrelaunchPage />} />
 
-        {/* Catch-all redirect */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* Catch-all redirect to latest home */}
+        <Route path="*" element={<Navigate to={latestHome} replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -42,6 +42,15 @@ export const getVersionConfigForPath = (pathname: string): PageVersionConfig | n
 };
 
 /**
+ * Path for the latest Home page (first entry in Home `versions`, newest first).
+ * Use for the `/` redirect so the default landing always tracks the newest shipped version.
+ */
+export function getLatestHomeVersionPath(): string {
+  const home = VERSION_CONFIGS.find((c) => c.pathPrefix === '/');
+  return home?.versions[0]?.path ?? '/v11';
+}
+
+/**
  * All versioned page configs.
  * Versions array is in descending order (newest first).
  */
@@ -51,6 +60,9 @@ export const VERSION_CONFIGS: PageVersionConfig[] = [
     rootPath: '/',
     pageName: 'Home',
     versions: [
+      { path: '/v11', label: 'v11' },
+      { path: '/v10', label: 'v10' },
+      { path: '/v9', label: 'v9' },
       { path: '/v4', label: 'v4' },
       { path: '/v3', label: 'v3' },
     ],

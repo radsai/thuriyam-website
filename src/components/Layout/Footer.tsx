@@ -14,9 +14,16 @@ const Footer: React.FC = () => {
   const isPrelaunchPage = location.pathname.startsWith('/prelaunch');
   const isV3Page = location.pathname.startsWith('/v3') || location.pathname.startsWith('/platform/studio/v3');
   const isResourcesBlog = location.pathname.startsWith('/resources/blog');
+  const isDarkHomeVariant = location.pathname === '/v9' || location.pathname === '/v10';
 
   return (
-    <footer className="border-t border-slate-200 bg-gradient-to-b from-slate-50 to-slate-100 py-12">
+    <footer
+      className={
+        isDarkHomeVariant
+          ? 'border-t border-zinc-800 bg-zinc-950 py-12 text-zinc-300 [&_a]:text-zinc-400 [&_a:hover]:text-white [&_h3]:text-zinc-100 [&_p.text-sm]:text-zinc-500'
+          : 'border-t border-slate-200 bg-gradient-to-b from-slate-50 to-slate-100 py-12'
+      }
+    >
       <Container>
         {isPrelaunchPage ? (
           // Simplified footer for prelaunch pages
@@ -24,7 +31,7 @@ const Footer: React.FC = () => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
               <div className="flex flex-col items-start mb-6 md:mb-0">
                 <div className="mb-4">
-                  <Logo className="text-foreground" size={40} showText={true} />
+                  <Logo className="text-foreground" size={40} showText={true} invert={isDarkHomeVariant} />
                 </div>
                 <p className="text-sm text-slate-600">
                   The Operating System for Your AI Workforce
@@ -79,7 +86,11 @@ const Footer: React.FC = () => {
                 </a>
               </div>
             </div>
-            <div className="pt-8 border-t border-slate-200 text-center text-sm text-slate-600">
+            <div
+              className={`pt-8 border-t text-center text-sm ${
+                isDarkHomeVariant ? 'border-zinc-800 text-zinc-500' : 'border-slate-200 text-slate-600'
+              }`}
+            >
               © 2026 Thuriyam. All rights reserved.
             </div>
           </>
@@ -90,7 +101,7 @@ const Footer: React.FC = () => {
               {/* Logo and Tagline */}
               <div className="flex flex-col">
                 <div className="mb-4">
-                  <Logo className="text-foreground" size={40} showText={true} />
+                  <Logo className="text-foreground" size={40} showText={true} invert={isDarkHomeVariant} />
                 </div>
                 <p className="text-sm text-slate-600 mb-4">
                   The Operating System for Your AI Workforce
@@ -222,7 +233,11 @@ const Footer: React.FC = () => {
                 </div>
               )}
             </div>
-            <div className="pt-8 border-t border-slate-200 text-center text-sm text-slate-600">
+            <div
+              className={`pt-8 border-t text-center text-sm ${
+                isDarkHomeVariant ? 'border-zinc-800 text-zinc-500' : 'border-slate-200 text-slate-600'
+              }`}
+            >
               © 2026 Thuriyam. All rights reserved.
             </div>
           </>

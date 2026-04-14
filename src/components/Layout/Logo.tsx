@@ -4,11 +4,13 @@ interface LogoProps {
   className?: string;
   size?: number;
   showText?: boolean;
+  /** Light wordmark for dark backgrounds (e.g. Home v9 footer) */
+  invert?: boolean;
 }
 
-const Logo: React.FC<LogoProps> = ({ className = '', size = 40, showText = true }) => {
+const Logo: React.FC<LogoProps> = ({ className = '', size = 40, showText = true, invert = false }) => {
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
+    <div className={`flex items-center gap-3 ${invert ? 'text-white' : ''} ${className}`}>
       {/* Logo Icon - extracted from the SVG */}
       <svg 
         width={size} 
@@ -32,7 +34,7 @@ const Logo: React.FC<LogoProps> = ({ className = '', size = 40, showText = true 
       
       {/* Text */}
       {showText && (
-        <span className="font-bold text-xl" style={{ color: '#1e293b' }}>
+        <span className={`font-bold text-xl ${invert ? 'text-white' : ''}`} style={invert ? undefined : { color: '#1e293b' }}>
           Thuriyam
         </span>
       )}

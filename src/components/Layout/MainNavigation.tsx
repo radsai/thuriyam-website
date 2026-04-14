@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
 import { VersionSelector } from './VersionSelector';
 import type { NavItem } from '@/types/nav';
+import { cn } from '@/lib/utils';
 
 export type { NavItem };
 
@@ -12,13 +13,17 @@ const MobileDropdown: React.FC<{
   label: string;
   children: NavItem[];
   onClose: () => void;
-}> = ({ label, children, onClose }) => {
+  dark?: boolean;
+}> = ({ label, children, onClose, dark = false }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   return (
     <div>
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between px-4 py-2 text-sm font-medium hover:bg-accent rounded-lg"
+        className={cn(
+          'flex w-full items-center justify-between rounded-lg px-4 py-2 text-sm font-medium',
+          dark ? 'text-zinc-200 hover:bg-zinc-800' : 'hover:bg-accent'
+        )}
       >
         {label}
         <ChevronDown className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
@@ -34,6 +39,7 @@ const MobileDropdown: React.FC<{
                   label={child.label}
                   children={child.children}
                   onClose={onClose}
+                  dark={dark}
                 />
               );
             }
@@ -42,7 +48,12 @@ const MobileDropdown: React.FC<{
               <Link
                 key={child.path}
                 to={child.path || '#'}
-                className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg"
+                className={cn(
+                  'block rounded-lg px-4 py-2 text-sm',
+                  dark
+                    ? 'text-zinc-300 hover:bg-zinc-800 hover:text-white'
+                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                )}
                 onClick={onClose}
               >
                 {child.label}
@@ -82,9 +93,16 @@ const defaultNavItems: NavItem[] = [
 interface MainNavigationProps {
   navItems?: NavItem[];
   logoLink?: string;
+  /** Dark header for Home v9 and similar full-bleed dark pages */
+  variant?: 'default' | 'dark';
 }
 
-const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavItems, logoLink = '/' }) => {
+const MainNavigation: React.FC<MainNavigationProps> = ({
+  navItems = defaultNavItems,
+  logoLink = '/',
+  variant = 'default',
+}) => {
+  const dark = variant === 'dark';
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [openNestedDropdown, setOpenNestedDropdown] = useState<string | null>(null);
@@ -102,11 +120,19 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
 
 
   return (
-    <header className="sticky top-0 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" style={{ zIndex: 10000 }}>
+    <header
+      className={cn(
+        'sticky top-0 w-full border-b backdrop-blur supports-[backdrop-filter]:bg-background/60',
+        dark
+          ? 'border-zinc-800 bg-zinc-950/95 supports-[backdrop-filter]:bg-zinc-950/80'
+          : 'border-border/40 bg-background/95 supports-[backdrop-filter]:bg-background/60'
+      )}
+      style={{ zIndex: 10000 }}
+    >
       <div className="container mx-auto px-4 md:px-6 h-16 flex items-center justify-between relative" style={{ zIndex: 10000 }}>
         {/* Logo */}
         <Link to={logoLink} className="flex items-center relative" style={{ zIndex: 10001 }}>
-          <Logo className="text-foreground" size={40} showText={true} />
+          <Logo className="text-foreground" size={40} showText={true} invert={dark} />
         </Link>
 
         {/* Desktop Navigation - Hidden on prelaunch page */}
@@ -133,17 +159,27 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
                     }}
                   >
                     <button
-                      className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
-                        isActive(item.path) || openDropdown === item.label
-                          ? 'text-foreground bg-accent'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                      }`}
+                      className={cn(
+                        'px-3 py-2 text-sm font-medium transition-colors rounded-lg',
+                        dark
+                          ? isActive(item.path) || openDropdown === item.label
+                            ? 'bg-zinc-800 text-white'
+                            : 'text-zinc-300 hover:bg-zinc-800 hover:text-white'
+                          : isActive(item.path) || openDropdown === item.label
+                            ? 'bg-accent text-foreground'
+                            : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                      )}
                     >
                       {item.label}
                       <ChevronDown className="inline-block ml-1 w-4 h-4" />
                     </button>
                     {openDropdown === item.label && (
-                      <div className="absolute top-full left-0 mt-1 w-48 bg-background border border-border rounded-lg shadow-lg py-2 z-50">
+                      <div
+                        className={cn(
+                          'absolute left-0 top-full z-50 mt-1 w-48 rounded-lg border py-2 shadow-lg',
+                          dark ? 'border-zinc-700 bg-zinc-900' : 'border-border bg-background'
+                        )}
+                      >
                         {item.children.map((child) => {
                           if (child.children) {
                             return (
@@ -153,17 +189,34 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
                                 onMouseEnter={() => setOpenNestedDropdown(child.label)}
                                 onMouseLeave={() => setOpenNestedDropdown(null)}
                               >
-                                <button className="w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent flex items-center justify-between">
+                                <button
+                                  className={cn(
+                                    'flex w-full items-center justify-between px-4 py-2 text-left text-sm',
+                                    dark
+                                      ? 'text-zinc-300 hover:bg-zinc-800 hover:text-white'
+                                      : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                                  )}
+                                >
                                   {child.label}
                                   <ChevronDown className="w-4 h-4" />
                                 </button>
                                 {openNestedDropdown === child.label && (
-                                  <div className="absolute left-full top-0 ml-1 w-48 bg-background border border-border rounded-lg shadow-lg py-2 z-50">
+                                  <div
+                                    className={cn(
+                                      'absolute left-full top-0 z-50 ml-1 w-48 rounded-lg border py-2 shadow-lg',
+                                      dark ? 'border-zinc-700 bg-zinc-900' : 'border-border bg-background'
+                                    )}
+                                  >
                                     {child.children.map((nested) => (
                                       <Link
                                         key={nested.path}
                                         to={nested.path || '#'}
-                                        className="block px-4 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent"
+                                        className={cn(
+                                          'block px-4 py-2 text-sm',
+                                          dark
+                                            ? 'text-zinc-300 hover:bg-zinc-800 hover:text-white'
+                                            : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                                        )}
                                       >
                                         {nested.label}
                                       </Link>
@@ -177,11 +230,16 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
                             <Link
                               key={child.path}
                               to={child.path || '#'}
-                              className={`block px-4 py-2 text-sm transition-colors ${
-                                isActive(child.path)
-                                  ? 'text-foreground bg-accent'
-                                  : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                              }`}
+                              className={cn(
+                                'block px-4 py-2 text-sm transition-colors',
+                                dark
+                                  ? isActive(child.path)
+                                    ? 'bg-zinc-800 text-white'
+                                    : 'text-zinc-300 hover:bg-zinc-800 hover:text-white'
+                                  : isActive(child.path)
+                                    ? 'bg-accent text-foreground'
+                                    : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                              )}
                             >
                               {child.label}
                             </Link>
@@ -196,11 +254,16 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
                 <Link
                   key={item.path}
                   to={item.path || '#'}
-                  className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
-                    isActive(item.path)
-                      ? 'text-foreground bg-accent'
-                      : 'text-muted-foreground hover:text-foreground hover:bg-accent'
-                  }`}
+                  className={cn(
+                    'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+                    dark
+                      ? isActive(item.path)
+                        ? 'bg-zinc-800 text-white'
+                        : 'text-zinc-300 hover:bg-zinc-800 hover:text-white'
+                      : isActive(item.path)
+                        ? 'bg-accent text-foreground'
+                        : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                  )}
                 >
                   {item.label}
                 </Link>
@@ -210,12 +273,25 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
         )}
 
         {/* Version Selector (top right) + CTA Buttons */}
-        <div className="hidden lg:flex items-center gap-3 relative" style={{ zIndex: 10001 }}>
+        <div
+          className={cn(
+            'relative hidden items-center gap-3 lg:flex',
+            dark && '[&_button]:border-zinc-700 [&_button]:text-zinc-300 [&_button]:hover:bg-zinc-800'
+          )}
+          style={{ zIndex: 10001 }}
+        >
           <VersionSelector />
           {!isPrelaunchPage && (
             <>
               <Link to="/signin">
-                <button className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 h-9 px-4 text-sm text-foreground hover:bg-accent hover:text-accent-foreground">
+                <button
+                  className={cn(
+                    'inline-flex h-9 items-center justify-center rounded-lg px-4 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
+                    dark
+                      ? 'text-zinc-200 hover:bg-zinc-800 hover:text-white'
+                      : 'text-foreground hover:bg-accent hover:text-accent-foreground'
+                  )}
+                >
                   Sign In
                 </button>
               </Link>
@@ -230,7 +306,10 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
 
         {/* Mobile Menu Button */}
         <button
-          className="lg:hidden p-2 text-muted-foreground hover:text-foreground"
+          className={cn(
+            'p-2 lg:hidden',
+            dark ? 'text-zinc-300 hover:text-white' : 'text-muted-foreground hover:text-foreground'
+          )}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -244,22 +323,35 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden border-t border-border bg-background"
+            className={cn('border-t lg:hidden', dark ? 'border-zinc-800 bg-zinc-950' : 'border-border bg-background')}
           >
             <nav className="container mx-auto px-4 py-4 space-y-2">
-              <div className="lg:hidden pb-4 border-b border-border mb-4">
-                <VersionSelector />
+              <div className={cn('mb-4 border-b pb-4 lg:hidden', dark ? 'border-zinc-800' : 'border-border')}>
+                <div className={cn(dark && '[&_button]:border-zinc-700 [&_button]:text-zinc-300')}>
+                  <VersionSelector />
+                </div>
               </div>
               {!isPrelaunchPage && (
                 <>
                   {effectiveNavItems.map((item) =>
                     item.children?.length ? (
-                      <MobileDropdown key={item.label} label={item.label} children={item.children} onClose={() => setIsMobileMenuOpen(false)} />
+                      <MobileDropdown
+                        key={item.label}
+                        label={item.label}
+                        children={item.children}
+                        onClose={() => setIsMobileMenuOpen(false)}
+                        dark={dark}
+                      />
                     ) : (
                       <Link
                         key={item.label}
                         to={item.path || '#'}
-                        className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg"
+                        className={cn(
+                          'block rounded-lg px-4 py-2 text-sm font-medium',
+                          dark
+                            ? 'text-zinc-300 hover:bg-zinc-800 hover:text-white'
+                            : 'text-muted-foreground hover:bg-accent hover:text-foreground'
+                        )}
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         {item.label}
@@ -268,7 +360,14 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
                   )}
                   <div className="pt-4 space-y-2">
                     <Link to="/signin" className="block">
-                      <button className="w-full inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 h-9 px-4 text-sm border border-border bg-background hover:bg-accent hover:text-accent-foreground">
+                      <button
+                        className={cn(
+                          'inline-flex h-9 w-full items-center justify-center rounded-lg border px-4 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
+                          dark
+                            ? 'border-zinc-700 bg-zinc-900 text-zinc-200 hover:bg-zinc-800 hover:text-white'
+                            : 'border-border bg-background hover:bg-accent hover:text-accent-foreground'
+                        )}
+                      >
                         Sign In
                       </button>
                     </Link>
