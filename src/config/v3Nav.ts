@@ -4,6 +4,7 @@ export const v3NavItems: NavItem[] = [
   {
     label: 'Platform',
     children: [
+      { label: 'Overview', path: '/platform/overview' },
       { label: 'Studio', path: '/platform/studio/v3' },
     ],
   },

@@ -1,0 +1,3 @@
+Quality check on every answer
+
+Catch bad responses before they reach users.

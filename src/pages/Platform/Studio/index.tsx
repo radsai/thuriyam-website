@@ -73,11 +73,11 @@ const StudioPage: React.FC = () => {
                 transition={{ duration: 0.6 }}
               >
                 <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                  Build Production-Ready Agents{' '}
-                  <span className="text-primary">in Minutes</span>
+                  Agents That{' '}
+                  <span className="text-primary">Deliver Outcomes</span>
                 </h1>
                 <p className="text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed">
-                  Create, test, and deploy AI agents with confidence. Build with natural language, test automatically, deploy securely.
+                  Define the outcome. Agents act. Less manual work. Fewer escalations.
                 </p>
               </motion.div>
             </div>
@@ -574,7 +574,7 @@ const StudioPage: React.FC = () => {
               className="text-center max-w-3xl mx-auto"
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                See How Proactive Agents Can Transform Your Operations
+                See How Agents Can Transform Your Operations
               </h2>
               <p className="text-lg text-muted-foreground mb-8">
                 Define the outcome. Agents act. Less manual work. Fewer escalations.

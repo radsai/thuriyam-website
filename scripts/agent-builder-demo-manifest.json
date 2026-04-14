@@ -1,0 +1,80 @@
+{
+  "fps": 30,
+  "assetsBase": "agent-builder-demo-assets",
+  "slides": [
+    {
+      "id": 1,
+      "textFile": "01.txt",
+      "durationSec": 2,
+      "gradientTop": "#1a1a2e",
+      "gradientBottom": "#16213e",
+      "accent": "#e94560",
+      "icon": "sparkles",
+      "iconPng": "icons/example-sparkles.png",
+      "iconTintAccent": true
+    },
+    {
+      "id": 2,
+      "textFile": "02.txt",
+      "durationSec": 3,
+      "gradientTop": "#0f3460",
+      "gradientBottom": "#16213e",
+      "accent": "#00d9ff",
+      "icon": "globe"
+    },
+    {
+      "id": 3,
+      "textFile": "03.txt",
+      "durationSec": 4,
+      "gradientTop": "#2d1b4e",
+      "gradientBottom": "#16213e",
+      "accent": "#c084fc",
+      "icon": "memory"
+    },
+    {
+      "id": 4,
+      "textFile": "04.txt",
+      "durationSec": 3,
+      "gradientTop": "#14532d",
+      "gradientBottom": "#16213e",
+      "accent": "#4ade80",
+      "icon": "shield"
+    },
+    {
+      "id": 5,
+      "textFile": "05.txt",
+      "durationSec": 3,
+      "gradientTop": "#1e3a5f",
+      "gradientBottom": "#0c1829",
+      "accent": "#fbbf24",
+      "icon": "cpu"
+    },
+    {
+      "id": 6,
+      "textFile": "06.txt",
+      "durationSec": 3,
+      "gradientTop": "#312e81",
+      "gradientBottom": "#16213e",
+      "accent": "#a5b4fc",
+      "icon": "chart"
+    },
+    {
+      "id": 7,
+      "textFile": "07.txt",
+      "durationSec": 3,
+      "gradientTop": "#422006",
+      "gradientBottom": "#16213e",
+      "accent": "#fb923c",
+      "icon": "bot"
+    },
+    {
+      "id": 8,
+      "textFile": "08.txt",
+      "durationSec": 4,
+      "gradientTop": "#7f1d1d",
+      "gradientBottom": "#16213e",
+      "accent": "#f87171",
+      "icon": "rocket"
+    }
+  ]
+}

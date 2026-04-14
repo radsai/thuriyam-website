@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
+import { VersionSelector } from './VersionSelector';
 import type { NavItem } from '@/types/nav';
 
 export type { NavItem };
@@ -58,6 +59,7 @@ const defaultNavItems: NavItem[] = [
   {
     label: 'Platform',
     children: [
+      { label: 'Overview', path: '/platform/overview' },
       { label: 'Studio', path: '/platform/studio' },
     ],
   },
@@ -207,21 +209,24 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
           </nav>
         )}
 
-        {/* CTA Buttons - Hidden on prelaunch page */}
-        {!isPrelaunchPage && (
-          <div className="hidden lg:flex items-center gap-3 relative" style={{ zIndex: 10001 }}>
-            <Link to="/signin">
-              <button className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 h-9 px-4 text-sm text-foreground hover:bg-accent hover:text-accent-foreground">
-                Sign In
-              </button>
-            </Link>
-            <Link to="/signup">
-              <button className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 h-9 px-4 text-sm bg-black text-white hover:bg-black/90">
-                Sign Up
-              </button>
-            </Link>
-          </div>
-        )}
+        {/* Version Selector (top right) + CTA Buttons */}
+        <div className="hidden lg:flex items-center gap-3 relative" style={{ zIndex: 10001 }}>
+          <VersionSelector />
+          {!isPrelaunchPage && (
+            <>
+              <Link to="/signin">
+                <button className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 h-9 px-4 text-sm text-foreground hover:bg-accent hover:text-accent-foreground">
+                  Sign In
+                </button>
+              </Link>
+              <Link to="/signup">
+                <button className="inline-flex items-center justify-center rounded-lg font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 h-9 px-4 text-sm bg-black text-white hover:bg-black/90">
+                  Sign Up
+                </button>
+              </Link>
+            </>
+          )}
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -242,6 +247,9 @@ const MainNavigation: React.FC<MainNavigationProps> = ({ navItems = defaultNavIt
             className="lg:hidden border-t border-border bg-background"
           >
             <nav className="container mx-auto px-4 py-4 space-y-2">
+              <div className="lg:hidden pb-4 border-b border-border mb-4">
+                <VersionSelector />
+              </div>
               {!isPrelaunchPage && (
                 <>
                   {effectiveNavItems.map((item) =>

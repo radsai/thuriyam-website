@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Zap, Target, Calendar, ArrowRight, Bot, User } from 'lucide-react';
+import { Target, Calendar, ArrowRight, Bot, User } from 'lucide-react';
 import MainNavigation from '@/components/Layout/MainNavigation';
 import Footer from '@/components/Layout/Footer';
 import { v3NavItems } from '@/config/v3Nav';
@@ -41,7 +41,7 @@ const HomeV3Page: React.FC = () => {
                   className="space-y-6"
                 >
                   <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight" style={{ color: '#1e293b' }}>
-                    Proactive Agents That Deliver Outcomes
+                    Agents That Deliver Outcomes
                   </h1>
                   <p className="text-lg md:text-xl text-muted-foreground leading-relaxed" style={{ color: '#64748b' }}>
                     Define the outcome. Agents act. Less manual work. Fewer escalations.
@@ -79,7 +79,7 @@ const HomeV3Page: React.FC = () => {
           `}</style>
         </section>
 
-        {/* 2. Three Pillars */}
+        {/* 2. Platform Pillars */}
         <Section>
           <Container>
             <div className="text-center max-w-3xl mx-auto mb-16">
@@ -93,14 +93,8 @@ const HomeV3Page: React.FC = () => {
                 The Agentic Platform for Autonomous Operations
               </motion.h2>
             </div>
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {[
-                {
-                  icon: Zap,
-                  title: 'Proactive by Default',
-                  tagline: 'Agents that act before you ask',
-                  description: 'From reactive to proactive. Agents anticipate, initiate, and act without waiting for prompts—monitoring, detecting, and responding to what matters.',
-                },
                 {
                   icon: Target,
                   title: 'Outcome-Driven',
@@ -216,47 +210,6 @@ const HomeV3Page: React.FC = () => {
           </Container>
         </Section>
 
-        {/* 5. Platform Teaser */}
-        <Section className="bg-muted/30">
-          <Container>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center max-w-3xl mx-auto mb-12"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ color: '#1e293b' }}>
-                Studio & IQA: Built for Outcomes
-              </h2>
-              <p className="text-muted-foreground" style={{ color: '#64748b' }}>
-                Define outcomes in the Studio. Measure and improve with IQA. No Security or Guardrails pages—framed around what matters.
-              </p>
-            </motion.div>
-            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <Link
-                to="/platform/studio"
-                className="bg-card border border-border rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1"
-              >
-                <h3 className="text-xl font-bold mb-2" style={{ color: '#1e293b' }}>Studio</h3>
-                <p className="text-muted-foreground mb-4">Outcome-first agent design. Goals, not scripts.</p>
-                <span className="text-black font-medium inline-flex items-center gap-2">
-                  Explore Studio <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
-              <Link
-                to="/platform/iqa"
-                className="bg-card border border-border rounded-2xl p-8 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1"
-              >
-                <h3 className="text-xl font-bold mb-2" style={{ color: '#1e293b' }}>IQA</h3>
-                <p className="text-muted-foreground mb-4">Analytics that drive improvement. Measure what matters.</p>
-                <span className="text-black font-medium inline-flex items-center gap-2">
-                  Explore IQA <ArrowRight className="w-4 h-4" />
-                </span>
-              </Link>
-            </div>
-          </Container>
-        </Section>
-
         {/* 6. CTA */}
         <Section className="bg-black text-white">
           <Container>
@@ -267,7 +220,7 @@ const HomeV3Page: React.FC = () => {
               className="text-center max-w-3xl mx-auto"
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">
-                See How Proactive Agents Can Transform Your Operations
+                See How Agents Can Transform Your Operations
               </h2>
               <p className="text-lg mb-8 text-white/90">
                 Define the outcome. Let agents deliver. Less manual work. Fewer escalations.

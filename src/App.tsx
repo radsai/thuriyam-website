@@ -3,12 +3,15 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 // Marketing Website Pages
 import HomePage from "./pages/Home";
 import HomeV3Page from "./pages/Home/v3";
+import HomeV4Page from "./pages/Home/v4";
 import StudioPage from "./pages/Platform/Studio";
+import StudioV1Page from "./pages/Platform/Studio/v1";
 import StudioV3Page from "./pages/Platform/Studio/v3";
 import StudioDashboard from "./pages/Platform/Studio/Dashboard";
 import SecurityPage from "./pages/Platform/Security";
 import IQAPage from "./pages/Platform/IQA";
 import GuardrailsPage from "./pages/Platform/Guardrails";
+import PlatformOverviewPage from "./pages/Platform/Overview";
 import MarketplacePage from "./pages/Solutions/Marketplace";
 import HorizontalSolutionsPage from "./pages/Solutions/Horizontal";
 import BFSISolutionsPage from "./pages/Solutions/Vertical/BFSI";
@@ -38,7 +41,10 @@ const App: React.FC = () => {
         {/* Marketing Website Routes (Public) */}
         <Route path="/" element={<HomePage />} />
         <Route path="/v3" element={<HomeV3Page />} />
+        <Route path="/v4" element={<HomeV4Page />} />
+        <Route path="/platform/overview" element={<PlatformOverviewPage />} />
         <Route path="/platform/studio" element={<StudioPage />} />
+        <Route path="/platform/studio/v1" element={<StudioV1Page />} />
         <Route path="/platform/studio/v3" element={<StudioV3Page />} />
         <Route path="/platform/studio/dashboard" element={<StudioDashboard />} />
         <Route path="/platform/security" element={<SecurityPage />} />

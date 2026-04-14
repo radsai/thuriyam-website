@@ -1,11 +1,11 @@
 /**
  * Support Agent Creation Demo
- * Six-step demo aligned with vision board: outcome-driven, event-triggered, proactive
+ * Six-step demo aligned with vision board: outcome-driven, event-triggered
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MessageSquare, Target, Zap, Shield, CheckCircle, Bot, User, Bell, Calendar } from 'lucide-react';
+import { MessageSquare, Target, Zap, Shield, CheckCircle, User, Bell, Calendar, Globe } from 'lucide-react';
 import { UseCaseDemo, UseCaseStep } from './UseCaseDemo';
 
 const SupportAgentDemo: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
@@ -13,7 +13,7 @@ const SupportAgentDemo: React.FC<{ onComplete?: () => void }> = ({ onComplete })
     {
       id: '1',
       title: 'Describe Your Support Agent in Natural Language',
-      description: 'Simply describe what you need: "Build a customer support agent." The platform creates the agent configuration—outcome-driven, event-triggered, proactive.',
+      description: 'Simply describe what you need: "Build a customer support agent." The platform creates the agent configuration—outcome-driven and event-triggered.',
       activeUSPs: ['builder'],
       timeSaved: 'Traditional: 2 weeks → Platform: 2 minutes',
       visualContent: (
@@ -120,36 +120,37 @@ const SupportAgentDemo: React.FC<{ onComplete?: () => void }> = ({ onComplete })
     },
     {
       id: '4',
-      title: 'Proactive Support by Default',
-      description: 'Agents that act before you ask. Monitor, detect, act—from reactive to proactive.',
-      activeUSPs: ['memory', 'observability'],
+      title: 'Deploy Across Channels',
+      description: 'Your agent works everywhere your customers are—web, API, Slack, and more. One agent, multiple places.',
+      activeUSPs: ['channels'],
       metrics: [
-        { label: 'Proactive', value: 'Yes' },
-        { label: 'Monitor', value: '24/7' },
+        { label: 'Channels', value: '5+' },
+        { label: 'Deploy', value: 'One-click' },
       ],
       visualContent: (
         <div className="space-y-4">
-          <div className="bg-white rounded-lg p-4 border border-gray-200">
-            <div className="text-sm font-semibold text-gray-900 mb-3">Proactive Flow</div>
-            <div className="space-y-2">
-              {['Monitor queues & sentiment', 'Detect at-risk tickets', 'Act before escalation'].map((step, idx) => (
-                <motion.div
-                  key={step}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: idx * 0.2 }}
-                  className="flex items-center gap-2 p-2 bg-indigo-50 rounded"
-                >
-                  <Zap className="w-4 h-4 text-indigo-600" />
-                  <span className="text-sm text-gray-700">{step}</span>
-                </motion.div>
-              ))}
-            </div>
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { label: 'Web', Icon: Globe },
+              { label: 'API', Icon: Zap },
+              { label: 'Slack', Icon: MessageSquare },
+            ].map((channel, idx) => (
+              <motion.div
+                key={channel.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: idx * 0.15 }}
+                className="bg-white rounded-lg p-3 border border-gray-200 text-center"
+              >
+                <channel.Icon className="w-6 h-6 text-indigo-600 mx-auto mb-2" />
+                <div className="text-xs font-semibold text-gray-700">{channel.label}</div>
+              </motion.div>
+            ))}
           </div>
-          <div className="bg-purple-50 rounded-lg p-3 border border-purple-200">
-            <div className="flex items-center gap-2 text-sm text-purple-700">
-              <Bot className="w-4 h-4" />
-              <span>Agents that act before you ask</span>
+          <div className="bg-indigo-50 rounded-lg p-3 border border-indigo-200">
+            <div className="flex items-center gap-2 text-sm text-indigo-700">
+              <Globe className="w-4 h-4" />
+              <span>One agent, multiple places</span>
             </div>
           </div>
         </div>
@@ -187,7 +188,7 @@ const SupportAgentDemo: React.FC<{ onComplete?: () => void }> = ({ onComplete })
     {
       id: '6',
       title: 'Support Agent Ready to Deploy',
-      description: 'Your outcome-driven, event-triggered, proactive support agent is ready. Deploy with confidence.',
+      description: 'Your outcome-driven, event-triggered support agent is ready. Deploy with confidence.',
       activeUSPs: ['builder', 'security', 'observability'],
       timeSaved: 'Traditional: 4 weeks → Platform: 10 minutes',
       metrics: [
@@ -207,7 +208,7 @@ const SupportAgentDemo: React.FC<{ onComplete?: () => void }> = ({ onComplete })
             </motion.div>
             <h4 className="text-lg font-bold text-green-900 mb-2">Support Agent Ready!</h4>
             <p className="text-sm text-green-700 mb-4">
-              Outcome-driven • Event-triggered • Proactive
+              Outcome-driven • Event-triggered
             </p>
             <div className="grid grid-cols-2 gap-3 mt-4">
               <div className="bg-white rounded-lg p-2 border border-green-200">
@@ -228,7 +229,7 @@ const SupportAgentDemo: React.FC<{ onComplete?: () => void }> = ({ onComplete })
   return (
     <UseCaseDemo
       title="Support Agent Creation"
-      description="Create a customer support agent—outcome-driven, event-triggered, proactive"
+      description="Create a customer support agent—outcome-driven and event-triggered"
       icon={MessageSquare}
       iconColor="text-indigo-600"
       iconBgColor="bg-indigo-100"

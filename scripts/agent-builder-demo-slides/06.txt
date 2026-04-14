@@ -1,0 +1,3 @@
+Analytics built in
+
+Latency, success rate, and cost — live.
